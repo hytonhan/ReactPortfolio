@@ -1,4 +1,4 @@
-import { FaLinkedin, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
+import { FaLinkedin, FaEnvelope, FaMapMarkerAlt, FaGithub } from 'react-icons/fa';
 
 function Contact() {
   return (
@@ -36,6 +36,17 @@ function Contact() {
             className="text-blue-600 hover:underline"
           >
             https://www.linkedin.com/in/hannu-hytönen-7a9706151/
+          </a>
+        </p>
+
+        <p className="flex items-center space-x-3">
+          <FaGithub className="text-green-600 w-5 h-5" />
+          <span>Github:</span>
+          <a
+            href="https://github.com/hytonhan/ReactPortfolio"
+            className="text-blue-600 hover:underline"
+          >
+            https://github.com/hytonhan/ReactPortfolio
           </a>
         </p>
       </div>
