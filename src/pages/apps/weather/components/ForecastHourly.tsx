@@ -107,7 +107,7 @@ const ForecastHourly: React.FC<ForecastHourlyProps> = ({weatherData, region}) =>
 
               {/* Symbol */}
               <img
-                src={`/src/assets/symbols/SmartSymbol/light/${weatherEntry.smartSymbol}.svg`}
+                src={`/assets/symbols/SmartSymbol/light/${weatherEntry.smartSymbol}.svg`}
                 alt={`Weather symbol for ${weatherEntry.smartSymbol}`}
                 title={parseInt(weatherEntry?.smartSymbol ?? "") > 100 
                   ? smartSymbolMapping[parseInt(weatherEntry?.smartSymbol ?? "")-100] 
