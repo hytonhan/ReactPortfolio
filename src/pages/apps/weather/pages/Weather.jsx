@@ -38,7 +38,7 @@ function Weather() {
             <h1 className="text-3xl font-semibold text-gray-900 mb-8">WeatherApp</h1>
             <SearchBar onSearch={handleSearch}/>
 
-            {loading ? <HourlySkeleton /> : <ForecastHourly hours={weatherData} region={regionToSearch}/>}
+            {loading ? <HourlySkeleton /> : <ForecastHourly weatherData={weatherData} region={regionToSearch}/>}
 
         </div>
     )
