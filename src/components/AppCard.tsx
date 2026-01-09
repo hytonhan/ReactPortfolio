@@ -1,6 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 
-function AppCard({ title, description, path }) {
+interface AppCardProps {
+  title: string;
+  description: string;
+  path: string;
+}
+
+const AppCard: React.FC<AppCardProps> = ({ title, description, path }) => {
   const navigate = useNavigate();
 
   return (

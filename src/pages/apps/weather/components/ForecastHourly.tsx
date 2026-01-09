@@ -1,4 +1,6 @@
-const smartSymbolMapping = {
+import { type WeatherData } from "../services/WeatherService";
+
+const smartSymbolMapping: {[key:string]: string} = {
   "1": "Clear",
   "2": "Mostly clear",
   "4": "Partly cloudy",
@@ -56,11 +58,16 @@ const smartSymbolMapping = {
   "77": "Thundershowers"
 }
 
-function ForecastHourly({weatherData, region}) {
+interface ForecastHourlyProps {
+  weatherData: WeatherData[],
+  region: string
+}
+
+const ForecastHourly: React.FC<ForecastHourlyProps> = ({weatherData, region}) => {
 
     if (!weatherData || weatherData.length === 0) return null;
   
-    console.log("Rendering ForecastHourly with data:", weatherData);
+    // console.log("Rendering ForecastHourly with data:", weatherData);
     return (
       <section className="bg-white rounded-lg shadow p-4">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
@@ -73,14 +80,13 @@ function ForecastHourly({weatherData, region}) {
   
         <div className="flex gap-4 overflow-x-auto pb-2">
           {weatherData.map((weatherEntry, index) => (
-            
             <div
               key={weatherEntry.time}
               className="flex-shrink-0 w-12 text-center mb-2"
             >
               {/* Date */}
               <p className="text-sm text-gray-500 min-h-5">
-                {index === 0 || new Date(weatherEntry.time).getDate() !== new Date(weatherData[index - 1].time).getDate()
+                {index === 0 || (index > 0 && new Date(weatherEntry.time)?.getDate() !== new Date(weatherData[index - 1]?.time ?? 0).getDate())
                   ? new Date(weatherEntry.time).toLocaleDateString(undefined, {
                     month: 'short',
                     day: 'numeric',
@@ -103,9 +109,9 @@ function ForecastHourly({weatherData, region}) {
               <img
                 src={`/src/assets/symbols/SmartSymbol/light/${weatherEntry.smartSymbol}.svg`}
                 alt={`Weather symbol for ${weatherEntry.smartSymbol}`}
-                title={weatherEntry.smartSymbol > 100 
-                  ? smartSymbolMapping[weatherEntry.smartSymbol-100] 
-                  : smartSymbolMapping[weatherEntry.smartSymbol]
+                title={parseInt(weatherEntry?.smartSymbol ?? "") > 100 
+                  ? smartSymbolMapping[parseInt(weatherEntry?.smartSymbol ?? "")-100] 
+                  : smartSymbolMapping[parseInt(weatherEntry?.smartSymbol ?? "")]
                 }
                 className="mx-auto h-10 w-10"
               />

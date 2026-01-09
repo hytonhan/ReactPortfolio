@@ -1,8 +1,28 @@
+export interface WeatherData {
+    location: string;
+    time: string;
+    temperature?: string;
+    pressure?: string;
+    humidity?: string;
+    precipitationAmount?: string;
+    dewPoint?: string;
+    windDirection?: string;
+    windSpeedMs?: string;
+    windGust?: string;
+    totalCloudCover?: string;
+    lowCloudCover?: string;
+    mediumCloudCover?: string;
+    highCloudCover?: string;
+    visibility?: string;
+    smartSymbol?: string;
+  }
+  
 
 const baseUrl = `https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=GetFeature`;
 
-export async function fetchWeatherByCity(city) {
+export async function fetchWeatherByCity(city: string): Promise<WeatherData[]> {
 
+    // TODO: ADD LOGIC SO THAT WHEN BUTTON IS CLICKED STARTTIME IS NOW
     try {
         // const storedQuery = "storedquery_id=ecmwf::forecast::surface::point::simple";
         const storedQuery = "storedquery_id=fmi::forecast::harmonie::surface::point::simple";
@@ -36,16 +56,18 @@ export async function fetchWeatherByCity(city) {
 
         const elements = xmlDoc.getElementsByTagName("BsWfs:BsWfsElement");
         // Filter elements where BsWfs:ParameterName is "Temperature"
-        const groupedData = {};
+        const groupedData: WeatherData[] = [];
         for (let i = 0; i < elements.length; i++) {
             const element = elements[i];
+            if (element === undefined) continue;
             const gmlId = element.getAttribute("gml:id"); // Get the gml:id attribute
-            const pointId = gmlId.split(".")[2]; // Extract the point identifier (e.g., "1.1")
+            const pointId =  parseInt(gmlId?.split(".")[2] ?? ""); // Extract the point identifier (e.g., "1.1")
+            if (pointId === undefined || Number.isNaN(pointId)) continue;
 
             const parameterName = element.getElementsByTagName("BsWfs:ParameterName")[0]?.textContent;
-            const parameterValue = element.getElementsByTagName("BsWfs:ParameterValue")[0]?.textContent;
-            const time = element.getElementsByTagName("BsWfs:Time")[0]?.textContent;
-            const location = element.getElementsByTagName("gml:pos")[0]?.textContent;
+            const parameterValue = element.getElementsByTagName("BsWfs:ParameterValue")[0]?.textContent ?? "";
+            const time = element.getElementsByTagName("BsWfs:Time")[0]?.textContent ?? "";
+            const location = element.getElementsByTagName("gml:pos")[0]?.textContent ?? "";
 
             // Initialize the group if it doesn't exist
             if (!groupedData[pointId]) {
@@ -101,12 +123,13 @@ export async function fetchWeatherByCity(city) {
             // groupedData[pointId].parameters[parameterName] = parameterValue;
         }
         // Convert grouped data to an array for easier use
-        const groupedDataArray = Object.keys(groupedData).map((key) => ({
-            pointId: key,
-            ...groupedData[key],
-        }));
+        // const groupedDataArray = Object.keys(groupedData).map((key) => ({
+        //     pointId: key,
+        //     ...groupedData[key],
+        // }));
         
-        return groupedDataArray;
+        // return groupedDataArray;
+        return groupedData;
     }
     catch (error) {
         console.error("Error fetching weather data:", error);

@@ -1,4 +1,6 @@
-function HourlySkeleton() {
+import type React from "react";
+
+const HourlySkeleton: React.FC = () => {
     return (
       <section className="bg-white rounded-lg shadow p-4 animate-pulse">
         <div className="h-5 w-32 bg-gray-200 rounded mb-4" />

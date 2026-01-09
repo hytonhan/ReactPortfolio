@@ -1,17 +1,20 @@
 import SearchBar from "../components/SearchBar"
-import { useState, useEffect } from 'react';
-import {fetchWeatherByCity} from "../services/WeatherService";
+// import { useState, useEffect } from 'react';
+// import {fetchWeatherByCity} from "../services/WeatherService";
 import ForecastHourly from "../components/ForecastHourly";
 import HourlySkeleton from "../components/HourlySkeleton";
-import WeatherSkeleton from "../components/WeatherSkeleton";
+// import WeatherSkeleton from "../components/WeatherSkeleton";
 
-function Weather() {
+import React, { useState, useEffect } from 'react';
+import { fetchWeatherByCity, type WeatherData } from '../services/WeatherService';
 
-    const [loading, setLoading] = useState(false);
-    const [regionToSearch, setRegionToSearch] = useState('');
-    const [weatherData, setWeatherData] = useState([]);
 
-    const handleSearch = (region) => {
+const Weather: React.FC = () => {
+    const [loading, setLoading] = useState<boolean>(false);
+    const [regionToSearch, setRegionToSearch] = useState<string>('');
+    const [weatherData, setWeatherData] = useState<WeatherData[]>([]);
+
+    const handleSearch = (region: string) => {
         console.log("Searching weather for:", region);
         setRegionToSearch(region);
     }
@@ -20,11 +23,11 @@ function Weather() {
         if (regionToSearch) {
             setLoading(true);
             fetchWeatherByCity(regionToSearch)
-                .then((data) => {
+                .then((data: any) => {
                     console.log("Fetched weather data:", data);
                     setWeatherData(data);
                 })
-                .catch((error) => {
+                .catch((error: Error) => {
                     console.error("Error fetching weather data:", error);
                 })
                 .finally(() => {

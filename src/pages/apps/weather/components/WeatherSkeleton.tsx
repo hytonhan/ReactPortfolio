@@ -1,4 +1,6 @@
-function WeatherSkeleton() {
+import HourlySkeleton from './HourlySkeleton';
+
+const WeatherSkeleton: React.FC = () => {
     return (
       <div className="space-y-6 animate-pulse">
         {/* Current Weather */}

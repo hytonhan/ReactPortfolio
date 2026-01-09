@@ -1,10 +1,13 @@
-import {useState, useEffect} from 'react';
-import {fetchWeatherByCity} from '../services/WeatherService';
+import React, { useState } from 'react';
 
-function SearchBar({onSearch}) {
+interface SearchBarProps {
+    onSearch: (region: string) => void;
+  }
+
+const SearchBar: React.FC<SearchBarProps> = ({onSearch}) => {
     const [region, setRegion] = useState('tampere');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (onSearch) {
             onSearch(region); // Pass the user input to the parent component

@@ -1,10 +1,10 @@
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 
-function Navbar() {
+const Navbar: React.FC = () => {
   const [menuOpen, setOpen] = useState(false);
 
-  const linkClass = ({ isActive }) =>
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
     `block px-4 py-2 ${
       isActive ? 'text-blue-400' : 'text-white'
     } hover:text-blue-300`;
